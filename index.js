@@ -12,7 +12,7 @@ const {dbConnection, mongoose} = require('./src/configs/dbConnection')
 
 // env variables
 require('dotenv').config()
-const PORT = process.env.PORT || 8000
+const PORT = process.env?.PORT || 8000
 
 // async errors
 require('express-async-errors')
@@ -23,6 +23,9 @@ dbConnection()
 // body parser
 app.use(express.json())
 
+// getModelList()
+app.use(require('./src/middlewares/queryHandler'))
+
 //home path
 app.all('/', (req, res)=> {
     res.send({
@@ -30,6 +33,9 @@ app.all('/', (req, res)=> {
         message: 'welcome to pizza api'
     })
 })
+
+//users
+app.use('/users', require('./src/routes/userRouter'))
 
 // run server
 app.listen(PORT, () => console.log('http://127.0.0.1:' + PORT))
