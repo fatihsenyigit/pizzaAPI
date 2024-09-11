@@ -36,6 +36,8 @@ app.all('/', (req, res)=> {
 
 //users
 app.use('/users', require('./src/routes/userRouter'))
+// tokens
+app.use('/tokens', require('./src/routes/tokenRouter'))
 
 // run server
 app.listen(PORT, () => console.log('http://127.0.0.1:' + PORT))
