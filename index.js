@@ -42,6 +42,8 @@ app.use('/tokens', require('./src/routes/tokenRouter'))
 app.use('/orders', require('./src/routes/orderRouter'))
 // pizzas
 app.use('/pizzas', require('./src/routes/pizzaRouter'))
+// toppings
+app.use('/toppings', require('./src/routes/toppingRouter'))
 
 // run server
 app.listen(PORT, () => console.log('http://127.0.0.1:' + PORT))
