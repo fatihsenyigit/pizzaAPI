@@ -38,6 +38,8 @@ app.all('/', (req, res)=> {
 app.use('/users', require('./src/routes/userRouter'))
 // tokens
 app.use('/tokens', require('./src/routes/tokenRouter'))
+// orders
+app.use('/orders', require('./src/routes/orderRouter'))
 
 // run server
 app.listen(PORT, () => console.log('http://127.0.0.1:' + PORT))

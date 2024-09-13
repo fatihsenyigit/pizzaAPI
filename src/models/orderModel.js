@@ -2,7 +2,6 @@
 'use strict'
 
 const {mongoose} = require('../configs/dbConnection')
-const passwordEncrypt = require('../helpers/passwordEncrypt')
 
 const OrderSchema = new mongoose.Schema(
   {
@@ -43,7 +42,7 @@ const OrderSchema = new mongoose.Schema(
     },
   },
   {
-    collection: "tokens",
+    collection: "orders",
     timestamps: true,
   },
 );
