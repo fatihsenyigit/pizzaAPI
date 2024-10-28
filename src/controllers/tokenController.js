@@ -4,7 +4,7 @@ const Token = require("../models/tokenModel");
 
 module.exports = {
   list: async (req, res) => {
-    const data = await res.getModelList(Token);
+    const data = await res.getModelList(Token, {}, "userId");
     res.status(200).send({
       error: false,
       details: await res.getModelListDetails(Token),
@@ -14,7 +14,7 @@ module.exports = {
 
   create: async (req, res) => {
     const data = await Token.create(req.body)
-    res.status(200).send({
+    res.status(201).send({
         error: false,
         data,
     })
@@ -30,7 +30,7 @@ module.exports = {
 
   update: async (req, res) => {
     const data = await Token.updateOne({_id: req.params.id}, req.body, {runValidators: true});
-    res.status(200).send({
+    res.status(202).send({
       error: false,
       data,
       new: await Token.findOne({_id: req.params.id}),

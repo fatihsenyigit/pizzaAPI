@@ -3,6 +3,13 @@
 
 const {mongoose} = require('../configs/dbConnection')
 
+// const PizzaSizeEnum = {
+//   SMALL: "Small",
+//   MEDIUM: "Medium",
+//   LARGE: "Large",
+//   XLARGE: "XLarge",
+// };
+
 const OrderSchema = new mongoose.Schema(
   {
     userId: {
@@ -19,6 +26,8 @@ const OrderSchema = new mongoose.Schema(
 
     size: {
       type: String,
+      trim: true,
+      required: true,
       enum: {
         values: ["small", "medium", "large"],
         message: "small, medium, large dan birini sec",
@@ -34,11 +43,17 @@ const OrderSchema = new mongoose.Schema(
     price: {
       type: Number,
       default: 0,
+      required: true,
     },
 
-    amount: {
+    totalPrice: {
       type: Number,
-      default: 0,
+      default: function () {
+        return this.quantity * this.price;
+      }, // Create
+      transform: function () {
+        return this.quantity * this.price;
+      }, //Update
     },
   },
   {

@@ -17,6 +17,23 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       required: true,
       set: (password) => passwordEncrypt(password),
+
+      //set: passwordEncrypt
+      //   validate: [
+      //     (password) =>
+      //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(password),
+      //     "Password type is not correct.",
+      //   ],
+      //   set: async (password) => {
+      //       if ( !password ) {
+      //           throw new Error( 'Password is required' );
+      //       }
+      //       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+      //       if ( !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(password) ) {
+      //           throw new Error( 'Password must be at least 8 characters long and contain at least one special character and uppercase character' );
+      //       }
+      //       return passwordEncrypt(password)
+
     },
 
     email: {
@@ -28,6 +45,12 @@ const UserSchema = new mongoose.Schema(
         (email) => email.includes("@") && email.includes("."),
         "email is not valid",
       ],
+
+      // validate: [
+      //   (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email),
+      //   "Please fill a valid email address",
+      // ],
+
     },
 
     isAdmin: {
@@ -37,7 +60,7 @@ const UserSchema = new mongoose.Schema(
 
     isActive: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   { collection: "users", timestamps: true }

@@ -5,7 +5,7 @@ const Pizza = require('../models/pizzaModel')
 
 module.exports = {
     list: async (req, res) => {
-        const data = await res.getModelList(Pizza)
+        const data = await res.getModelList(Pizza, {}, "toppingIds")
         res.status(200).send({
             error: false,
             detail: await res.getModelListDetails(Pizza),
@@ -14,6 +14,8 @@ module.exports = {
     },
 
     create: async (req, res) => {
+        let {toppingIds} = req.body;
+        req.body.toppingIds = [...new Set(toppingIds)]
         const data = await Pizza.create(req.body)
         res.status(201).send({
             error: false,
@@ -22,7 +24,7 @@ module.exports = {
     }, 
 
     read: async (req, res) => {
-        const data = await Pizza.findOne({_id: req.params.id})
+        const data = await Pizza.findOne({_id: req.params.id}).populate("toppingIds")
         res.status(200).send({
             error: false,
             data,

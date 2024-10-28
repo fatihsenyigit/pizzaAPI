@@ -10,24 +10,34 @@ const PizzaSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: true,
+    unique: true,
   },
 
   image: {
     type: String,
-    requied: true,
+    // requied: true,
     trim: true,
   },
 
   price: {
     type: Number,
     default: 0,
-  },
-
-  toppingId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Topping",
     required: true,
   },
+
+  // toppingIds: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "Topping",
+  //   required: true,
+  // }, bu benim yaptigim
+
+  toppingIds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Topping",
+    },
+  ],
+
 }, {
   collation: 'pizzas', timestamps: true
 });

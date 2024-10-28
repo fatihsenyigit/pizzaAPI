@@ -14,8 +14,23 @@ module.exports = {
   },
 
   create: async (req, res) => {
+
+    // if (
+    //   !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(
+    //     req?.body?.password,
+    //   )
+    // ) {
+    //   res.errorStatusCode = 404;
+    //   throw new Error(
+    //     "Password must be at least 8 characters long and contain at least one special character and  at least one uppercase character",
+    //   );
+    //   //   const customError = new Error("");
+    //   //   error.statusCode = 404;
+    //   //   throw customError;
+    // }
+
     const data = await User.create(req.body);
-    res.status(200).send({
+    res.status(201).send({
       error: false,
       data,
     });

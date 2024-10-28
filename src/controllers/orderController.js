@@ -2,10 +2,11 @@
 'use strict'
 
 const Order = require('../models/orderModel')
+const Pizza = require('../models/pizzaModel')
 
 module.exports = {
     list: async (req, res) => {
-        const data = await res.getModelList(Order)
+        const data = await res.getModelList(Order, {}, ['userId', 'pizzaId'])
         res.status(200).send({
             error: false,
             detail: await res.getModelListDetails(Order),
@@ -14,6 +15,14 @@ module.exports = {
     },
 
     create: async (req, res) => {
+        const pizza = await Pizza.findOne({ _id: req?.body?.pizzaId });
+        if (!pizza) {
+        res.errorStatusCode = 404;
+        throw new Error("pizza not found");
+        }
+
+        req.body.price = pizza.price;
+
         const data = await Order.create(req.body)
         res.status(201).send({
             error: false,
@@ -22,7 +31,10 @@ module.exports = {
     },
 
     read: async (req, res) => {
-        const data = await Order.findOne({_id: req.params.id})
+        const data = await Order.findOne({_id: req.params.id}).populate([
+            'userId',
+            'pizzaId',
+        ])
         res.status(200).send({
             error: false,
             data,

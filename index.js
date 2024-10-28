@@ -4,6 +4,15 @@
     EXPRESS - Pizza API
 ------------------------------------------------------- */
 
+/*
+    $ cp .env-sample .env
+    $ npm init -y
+    $ npm i express dotenv mongoose express-async-errors
+    $ npm i morgan swagger-autogen swagger-ui-express redoc-express
+    $ mkdir logs
+    $ nodemon
+*/
+
 /* ------------------------------------------------------- */
 
 const express = require('express')
@@ -15,13 +24,16 @@ require('dotenv').config()
 const PORT = process.env?.PORT || 8000
 
 // async errors
-require('express-async-errors')
+require("express-async-errors");
 
 //dbConnection
 dbConnection()
 
 // body parser
 app.use(express.json())
+
+// Auhentication:
+app.use(require("./src/middlewares/authentication"));
 
 // getModelList()
 app.use(require('./src/middlewares/queryHandler'))
@@ -34,16 +46,11 @@ app.all('/', (req, res)=> {
     })
 })
 
-//users
-app.use('/users', require('./src/routes/userRouter'))
-// tokens
-app.use('/tokens', require('./src/routes/tokenRouter'))
-// orders
-app.use('/orders', require('./src/routes/orderRouter'))
-// pizzas
-app.use('/pizzas', require('./src/routes/pizzaRouter'))
-// toppings
-app.use('/toppings', require('./src/routes/toppingRouter'))
+// routes/index.js:
+app.use("/", require("./src/routes/"));
+
+// errorHandler:
+app.use(require("./src/middlewares/errorHandler"));
 
 // run server
 app.listen(PORT, () => console.log('http://127.0.0.1:' + PORT))

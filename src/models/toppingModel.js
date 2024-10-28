@@ -1,6 +1,5 @@
 
 const {mongoose} = require('../configs/dbConnection')
-const passwordEncrypt = require('../helpers/passwordEncrypt')
 
 const ToppingSchema = new mongoose.Schema(
     {
@@ -8,6 +7,7 @@ const ToppingSchema = new mongoose.Schema(
             type: String,
             trim: true,
             required: true,
+            unique: true,
         }
 },{
    collection: 'toppings', timestamps: true 
